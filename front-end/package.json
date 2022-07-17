@@ -1,9 +1,16 @@
 {
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "the front-end of the app",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
+  },
+  "author": "Abdi Zamed Mohamed",
+  "repository": {
+    "url": "https://github.com/abdi-aaqyaar/e-commerce-mern/tree/main/front-end"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
