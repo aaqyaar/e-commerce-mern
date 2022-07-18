@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const register = createAsyncThunk(
   "auth/register",
-  async (data: {}, { rejectWithValue }) => {
+  async (data: object, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/register`,
@@ -18,7 +18,7 @@ const register = createAsyncThunk(
 
 const login = createAsyncThunk(
   "auth/login",
-  async (data, { rejectWithValue }) => {
+  async (data: object, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/login`,

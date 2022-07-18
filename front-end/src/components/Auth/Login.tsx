@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { useReduxDispatch } from "hooks/useReduxHooks";
 import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup";
+import TextField from "utils/TextField";
+import { login } from "redux/thunks/auth.thunk";
 
 interface FormValues {
   email: string;
@@ -14,19 +19,27 @@ const initialValues: FormValues = {
 };
 
 const Login = () => {
+  const dispatch = useReduxDispatch();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values, { resetForm }) => {
+      const { email, password } = values;
+      const res = await dispatch(login({ email, password }));
+      if (res.type === "auth/login/fulfilled") {
+        toast.success("Successfully logged in");
+        resetForm();
+        router.push("/");
+      } else if (res.type === "auth/login/rejected") {
+        toast.error(res.payload.message);
+      }
     },
   });
 
   const { touched, values, getFieldProps, errors, handleSubmit } = formik;
-
-  console.log(values, errors);
 
   return (
     <FormikProvider value={formik}>
@@ -38,36 +51,28 @@ const Login = () => {
             </div>
             <div className="card-body">
               <div className="form-control">
-                <label className="label" htmlFor="email">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="text"
+                <TextField
+                  type={"text"}
                   placeholder="Email Address"
                   className="input input-bordered"
-                  {...getFieldProps("email")}
+                  touched={touched.email}
+                  errors={errors.email}
+                  getFieldProps={getFieldProps}
+                  label="Email (required)"
+                  formikValue="email"
                 />
-                <label className="label">
-                  <span className="label-text text-red-500">
-                    {touched.email && errors.email}
-                  </span>
-                </label>
               </div>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
+                <TextField
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   className="input input-bordered"
-                  {...getFieldProps("password")}
+                  touched={touched.password}
+                  errors={errors.password}
+                  getFieldProps={getFieldProps}
+                  label="Password (required)"
+                  formikValue="password"
                 />
-                <label className="label">
-                  <span className="label-text text-red-500">
-                    {touched.password && errors.password}
-                  </span>
-                </label>
 
                 <div className="form-control">
                   <label className="label">
@@ -110,7 +115,12 @@ const Login = () => {
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email is Invalid").required("Email is Required"),
-  password: Yup.string().required("Password is Required"),
+  password: Yup.string()
+    .required("Password is Required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character"
+    ),
 });
 
 export default Login;

@@ -61,31 +61,6 @@ const slice = createSlice({
         state.error = action.payload;
       });
   },
-  //   extraReducers: {
-  //     [login.pending.toString()]: (state) => {
-  //       state.isLoading = true;
-  //     },
-  //     [login.fulfilled.toString()]: (
-  //       state,
-  //       { payload }: PayloadAction<StateTypes>
-  //     ) => {
-  //       state.isLoading = false;
-  //       state.user = payload.data.user;
-  //       state.isAuthenticated = true;
-  //       state.token = payload.data.token;
-  //       state.error = null;
-  //     },
-  //     [login.rejected.toString()]: (
-  //       state,
-  //       { error }: PayloadAction<StateTypes>
-  //     ) => {
-  //       state.error = error.message;
-  //       state.isAuthenticated = false;
-  //       state.isLoading = false;
-  //       state.user = initialState.user;
-  //       state.token = null;
-  //     },
-  //   },
 });
 
 export default slice.reducer;

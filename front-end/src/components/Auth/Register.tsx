@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useReduxDispatch } from "hooks/useReduxHooks";
 import { register } from "redux/thunks/auth.thunk";
 import Link from "next/link";
 import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup";
+import TextField from "utils/TextField";
 
 interface FormValues {
   email: string;
   password: string;
+  name: string;
+  confirmPassword: string;
 }
 
 const initialValues: FormValues = {
   email: "",
   password: "",
+  name: "",
+  confirmPassword: "",
 };
 
 const Register = () => {
@@ -24,7 +29,8 @@ const Register = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      const res = await dispatch(register(values));
+      const { email, password, name } = values;
+      const res = await dispatch(register({ email, password, name }));
       if (res.type === "auth/register/fulfilled") {
         toast.success("Successfully registered");
       } else if (res.type === "auth/register/rejected") {
@@ -33,48 +39,64 @@ const Register = () => {
     },
   });
 
-  const { touched, getFieldProps, errors, handleSubmit } = formik;
+  const { touched, getFieldProps, values, errors, handleSubmit } = formik;
 
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={handleSubmit} autoComplete="off">
-        <div className="hero min-h-[75.5vh]">
-          <div className="card flex-shrink-0 w-full max-w-xl py-10 shadow-2xl bg-base-100">
+        <div className="hero min-h-[40vh]">
+          <div className="card flex-shrink-0 w-full max-w-xl py-10 my-10 scroll-m-4 shadow-2xl bg-base-100">
             <div className="card-head">
               <h1 className="text-2xl font-bold text-center">Register</h1>
             </div>
             <div className="card-body">
               <div className="form-control">
-                <label className="label" htmlFor="email">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Email Address"
+                <TextField
+                  type={"text"}
+                  placeholder="Name"
                   className="input input-bordered"
-                  {...getFieldProps("email")}
+                  touched={touched.name}
+                  errors={errors.name}
+                  getFieldProps={getFieldProps}
+                  label="Name (required)"
+                  formikValue="name"
                 />
-                <label className="label">
-                  <span className="label-text text-red-500">
-                    {touched.email && errors.email}
-                  </span>
-                </label>
               </div>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
+                <TextField
+                  type={"text"}
+                  placeholder="Email Address"
+                  className="input input-bordered"
+                  touched={touched.email}
+                  errors={errors.email}
+                  getFieldProps={getFieldProps}
+                  label="Email (required)"
+                  formikValue="email"
+                />
+              </div>
+              <div className="form-control">
+                <TextField
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   className="input input-bordered"
-                  {...getFieldProps("password")}
+                  touched={touched.password}
+                  errors={errors.password}
+                  getFieldProps={getFieldProps}
+                  label="Password (required)"
+                  formikValue="password"
                 />
-                <label className="label">
-                  <span className="label-text text-red-500">
-                    {touched.password && errors.password}
-                  </span>
-                </label>
+              </div>
+              <div className="form-control">
+                <TextField
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  className="input input-bordered"
+                  touched={touched.confirmPassword}
+                  errors={errors.confirmPassword}
+                  getFieldProps={getFieldProps}
+                  label="Confirm Password (required)"
+                  formikValue="confirmPassword"
+                />
 
                 <div className="form-control">
                   <label className="label">
@@ -112,7 +134,17 @@ const Register = () => {
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Email is Invalid").required("Email is Required"),
-  password: Yup.string().required("Password is Required"),
+  password: Yup.string()
+    .required("Password is Required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character"
+    ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is Required"),
+
+  name: Yup.string().required("Name is Required"),
 });
 
 export default Register;

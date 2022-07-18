@@ -2,9 +2,10 @@ import React from "react";
 import Image from "next/image";
 import { ShoppingCartIcon, LoginIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { useReduxSelector } from "hooks/useReduxHooks";
 
 const Header: React.FC = () => {
-  const isAuthenticated = false;
+  const { isAuthenticated } = useReduxSelector((state) => state.auth);
   return (
     <div className="navbar shadow-lg bg-neutral pr-6 py-4 text-neutral-content">
       <div className="container mx-auto">
@@ -50,7 +51,7 @@ const Header: React.FC = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="menu menu-compact  dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
                   <a className="justify-between">
