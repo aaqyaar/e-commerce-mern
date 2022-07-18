@@ -16,12 +16,12 @@ exports.login = async (req, res) => {
 };
 // register user
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   const user = await User.findOne({ email }).exec();
   if (user) {
     return res.status(400).json({ message: "User already exists" });
   }
-  const newUser = await new User({ name, email, password }).save();
+  const newUser = await new User({ name, email, role, password }).save();
   res.json({ user: newUser });
 };
 

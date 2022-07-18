@@ -4,11 +4,14 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    name: String,
-    email: String,
-    password: String,
-    avatar: String,
-    isAdmin: { type: Boolean, default: false },
+    name: { type: String, required: true, minlength: 3, maxlength: 50 },
+    email: { type: String, required: true, unique: true, index: true },
+    password: { type: String, required: true, minlength: 6, maxlength: 50 },
+    role: {
+      type: String,
+      required: true,
+      enum: [process.env.USER_ACCESS_ROLE, process.env.ADMIN_ACCESS_ROLE],
+    },
   },
   { timestamps: true }
 );
