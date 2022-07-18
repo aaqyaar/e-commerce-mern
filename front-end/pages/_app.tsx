@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-
+import { Toaster } from "react-hot-toast";
 import type { AppProps } from "next/app";
 import React from "react";
 import Head from "next/head";
@@ -25,6 +25,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       </Head>
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
+          <Toaster position="top-right" reverseOrder={false} gutter={8} />
           <Component {...pageProps} />
         </PersistGate>
       </Provider>

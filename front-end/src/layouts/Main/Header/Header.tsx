@@ -6,18 +6,16 @@ import Link from "next/link";
 const Header: React.FC = () => {
   const isAuthenticated = false;
   return (
-    <div className="navbar shadow-lg bg-neutral pr-6 text-neutral-content">
+    <div className="navbar shadow-lg bg-neutral pr-6 py-4 text-neutral-content">
       <div className="container mx-auto">
         <div className="flex-1">
           <Link href="/" passHref>
-            <a className="btn btn-ghost normal-case text-xl font-space">
-              Somali Shop
-            </a>
+            <a className="btn btn-ghost normal-case text-xl">Somali Shop</a>
           </Link>
         </div>
         <div className="flex gap-4">
           <div>
-            <a className="btn btn-ghost normal-case text-xl font-space">Shop</a>
+            <a className="btn btn-ghost normal-case text-xl">Shop</a>
           </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -74,7 +72,7 @@ const Header: React.FC = () => {
           ) : (
             <div>
               <Link href={"/login"} passHref>
-                <a className="btn btn-error normal-case text-xl font-space">
+                <a className="btn btn-error normal-case text-xl ">
                   <LoginIcon className="w-6 h-6" />
                   Login
                 </a>

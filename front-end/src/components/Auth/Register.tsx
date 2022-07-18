@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useReduxDispatch } from "hooks/useReduxHooks";
+import { register } from "redux/thunks/auth.thunk";
 import Link from "next/link";
 import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup";
@@ -14,17 +17,23 @@ const initialValues: FormValues = {
 };
 
 const Register = () => {
+  const dispatch = useReduxDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const res = await dispatch(register(values));
+      if (res.type === "auth/register/fulfilled") {
+        toast.success("Successfully registered");
+      } else if (res.type === "auth/register/rejected") {
+        toast.error(res.payload.message);
+      }
     },
   });
 
-  const { touched, values, getFieldProps, errors, handleSubmit } = formik;
+  const { touched, getFieldProps, errors, handleSubmit } = formik;
 
   return (
     <FormikProvider value={formik}>

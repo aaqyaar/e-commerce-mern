@@ -1,7 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
-import productsSlice from "./slices/products.slice";
+import productReducer from "./slices/products.slice";
+import authReducer from "./slices/auth.slice";
 
 const persistConfig = {
   key: "root",
@@ -11,7 +12,8 @@ const persistConfig = {
 
 const reducer = combineReducers({
   // ...your reducers here
-  product: productsSlice,
+  auth: authReducer,
+  product: productReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
