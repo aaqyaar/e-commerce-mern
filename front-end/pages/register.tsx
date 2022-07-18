@@ -4,7 +4,7 @@ import Register from "components/Auth/Register";
 
 type Props = {};
 
-export default function login({}: Props) {
+export default function RegisterPage({}: Props) {
   return (
     <Main>
       <Register />

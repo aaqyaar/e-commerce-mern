@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { ShoppingCartIcon } from "@heroicons/react/outline";
+import { ShoppingCartIcon, LoginIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
 const Header: React.FC = () => {
@@ -61,6 +61,9 @@ const Header: React.FC = () => {
                   </a>
                 </li>
                 <li>
+                  <a>Dashboard</a>
+                </li>
+                <li>
                   <a>Settings</a>
                 </li>
                 <li>
@@ -71,7 +74,8 @@ const Header: React.FC = () => {
           ) : (
             <div>
               <Link href={"/login"} passHref>
-                <a className="btn btn-ghost normal-case text-xl font-space">
+                <a className="btn btn-error normal-case text-xl font-space">
+                  <LoginIcon className="w-6 h-6" />
                   Login
                 </a>
               </Link>
