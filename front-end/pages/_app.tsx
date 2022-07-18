@@ -1,3 +1,5 @@
+import "../styles/globals.css";
+
 import type { AppProps } from "next/app";
 import React from "react";
 import Head from "next/head";
@@ -9,15 +11,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <React.Fragment>
       <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <meta name="keywords" content="E-commerce" />
-        <meta name="keywords" content="e-commerce somali" />
-        <meta name="keywords" content="web app e-commerce" />
-        <title>E-commerce</title>
-        <link rel="icon" href="/favicon.ico" />
+        <html data-theme={"dark"}>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="keywords" content="E-commerce" />
+          <meta name="keywords" content="e-commerce somali" />
+          <meta name="keywords" content="web app e-commerce" />
+          <title>E-commerce</title>
+          <link rel="icon" href="/favicon.ico" />
+        </html>
       </Head>
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={null}>
