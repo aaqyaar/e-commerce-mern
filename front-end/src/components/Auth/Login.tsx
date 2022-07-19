@@ -34,6 +34,7 @@ const initialValues: FormValues = {
 const Login = () => {
   const dispatch = useReduxDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
@@ -41,13 +42,24 @@ const Login = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values;
-      const res = await dispatch(login({ email, password }));
-      if (res.type === "auth/login/fulfilled") {
-        toast.success("Successfully logged in");
-        resetForm();
-        router.push("/");
-      } else if (res.type === "auth/login/rejected") {
-        toast.error(res.payload.message);
+      try {
+        setLoading(true);
+        const res: any = await dispatch(login({ email, password }));
+        if (res.type === "auth/login/fulfilled") {
+          toast.success("Successfully logged in");
+          resetForm();
+          router.push("/");
+        } else if (res.type === "auth/login/rejected") {
+          if (res.payload.response.data.message === "Invalid password") {
+            toast.error("Password is incorrect");
+          } else {
+            toast.error("Something went wrong");
+          }
+        }
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
       }
     },
   });
@@ -107,7 +119,13 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="form-control mt-6">
-                  <button className="btn btn-primary">login</button>
+                  <button
+                    className={`btn btn-primary ${
+                      loading && "loading btn-disabled"
+                    }`}
+                  >
+                    login
+                  </button>
                 </div>
                 <div>
                   <label className="label">

@@ -3,11 +3,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const register = createAsyncThunk(
   "auth/register",
-  async (data: object, { rejectWithValue }) => {
+  async (user: object, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/register`,
-        { data }
+        { user }
       );
       return response.data;
     } catch (error) {
@@ -18,11 +18,11 @@ const register = createAsyncThunk(
 
 const login = createAsyncThunk(
   "auth/login",
-  async (data: object, { rejectWithValue }) => {
+  async (user: object, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/login`,
-        { data }
+        { user }
       );
       return response.data;
     } catch (error) {
@@ -31,4 +31,26 @@ const login = createAsyncThunk(
   }
 );
 
-export { register, login };
+const logout = createAsyncThunk(
+  "auth/logout",
+  async (token: string | null, { rejectWithValue }) => {
+    const headers: any = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/logout`,
+        {},
+        {
+          headers,
+        }
+      );
+      return res;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export { register, login, logout };

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup";
 import TextField from "utils/TextField";
+import { useRouter } from "next/router";
 
 interface FormValues {
   email: string;
@@ -23,19 +24,26 @@ const initialValues: FormValues = {
 
 const Register = () => {
   const dispatch = useReduxDispatch();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
+      setLoading(true);
       const { email, password, name } = values;
-      const res = await dispatch(register({ email, password, name }));
+      const res: any = await dispatch(
+        register({ email, password, name, role: "user" })
+      );
       if (res.type === "auth/register/fulfilled") {
         toast.success("Successfully registered");
+        resetForm();
+        router.push("/");
       } else if (res.type === "auth/register/rejected") {
         toast.error(res.payload.message);
       }
+      setLoading(false);
     },
   });
 
@@ -43,60 +51,65 @@ const Register = () => {
 
   return (
     <FormikProvider value={formik}>
+      {/* lg:ml-[20%] */}
       <Form onSubmit={handleSubmit} autoComplete="off">
-        <div className="hero min-h-[40vh]">
-          <div className="card flex-shrink-0 w-full max-w-xl py-10 my-10 scroll-m-4 shadow-2xl bg-base-100">
+        <div className="max-w-screen flex items-center justify-center">
+          <div className="card flex-shrink-0 lg:max-w-[60vw] w-full max-w-full py-10 my-10 shadow-2xl bg-base-100">
             <div className="card-head">
-              <h1 className="text-2xl font-bold text-center">Register</h1>
+              <h1 className="text-2xl font-bold text-center">
+                Create a new account
+              </h1>
             </div>
-            <div className="card-body">
-              <div className="form-control">
-                <TextField
-                  type={"text"}
-                  placeholder="Name"
-                  className="input input-bordered"
-                  touched={touched.name}
-                  errors={errors.name}
-                  getFieldProps={getFieldProps}
-                  label="Name (required)"
-                  formikValue="name"
-                />
-              </div>
-              <div className="form-control">
-                <TextField
-                  type={"text"}
-                  placeholder="Email Address"
-                  className="input input-bordered"
-                  touched={touched.email}
-                  errors={errors.email}
-                  getFieldProps={getFieldProps}
-                  label="Email (required)"
-                  formikValue="email"
-                />
-              </div>
-              <div className="form-control">
-                <TextField
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  className="input input-bordered"
-                  touched={touched.password}
-                  errors={errors.password}
-                  getFieldProps={getFieldProps}
-                  label="Password (required)"
-                  formikValue="password"
-                />
-              </div>
-              <div className="form-control">
-                <TextField
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  className="input input-bordered"
-                  touched={touched.confirmPassword}
-                  errors={errors.confirmPassword}
-                  getFieldProps={getFieldProps}
-                  label="Confirm Password (required)"
-                  formikValue="confirmPassword"
-                />
+            <div className="card-body ">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-4">
+                <div className="form-control">
+                  <TextField
+                    type={"text"}
+                    placeholder="Name"
+                    className="input input-bordered"
+                    touched={touched.name}
+                    errors={errors.name}
+                    getFieldProps={getFieldProps}
+                    label="Name (required)"
+                    formikValue="name"
+                  />
+                </div>
+                <div className="form-control">
+                  <TextField
+                    type={"text"}
+                    placeholder="Email Address"
+                    className="input input-bordered"
+                    touched={touched.email}
+                    errors={errors.email}
+                    getFieldProps={getFieldProps}
+                    label="Email (required)"
+                    formikValue="email"
+                  />
+                </div>
+                <div className="form-control">
+                  <TextField
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    className="input input-bordered"
+                    touched={touched.password}
+                    errors={errors.password}
+                    getFieldProps={getFieldProps}
+                    label="Password (required)"
+                    formikValue="password"
+                  />
+                </div>
+                <div className="form-control">
+                  <TextField
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirm Password"
+                    className="input input-bordered"
+                    touched={touched.confirmPassword}
+                    errors={errors.confirmPassword}
+                    getFieldProps={getFieldProps}
+                    label="Confirm Password (required)"
+                    formikValue="confirmPassword"
+                  />
+                </div>
 
                 <div className="form-control">
                   <label className="label">
@@ -112,7 +125,13 @@ const Register = () => {
                 </div>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">register</button>
+                <button
+                  className={`btn btn-primary ${
+                    loading && "loading btn-disabled"
+                  }`}
+                >
+                  register
+                </button>
               </div>
               <div>
                 <label className="label">

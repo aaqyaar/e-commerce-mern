@@ -22,10 +22,12 @@ function Products({ products }: Props) {
           Latest <span className="text-indigo-500">Products.</span>
         </h1>
       </div>
+
       <Grid>
-        {products.map((product, i) => (
-          <LatestProduct product={product} key={i} />
-        ))}
+        {products &&
+          products.map((product, i) => (
+            <LatestProduct product={product} key={i} />
+          ))}
       </Grid>
     </div>
   );

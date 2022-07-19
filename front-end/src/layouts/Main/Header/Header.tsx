@@ -2,10 +2,27 @@ import React from "react";
 import Image from "next/image";
 import { ShoppingCartIcon, LoginIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import { useReduxSelector } from "hooks/useReduxHooks";
+import { useReduxDispatch, useReduxSelector } from "hooks/useReduxHooks";
+import { useCurrentRole, useCurrentUser } from "hooks/useCurrent";
+import { logout } from "redux/thunks/auth.thunk";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Header: React.FC = () => {
-  const { isAuthenticated } = useReduxSelector((state) => state.auth);
+  const { isAuthenticated, token } = useReduxSelector((state) => state.auth);
+  const dispatch = useReduxDispatch();
+  const userRole = useCurrentRole();
+  const user = useCurrentUser();
+  const handleLogout = async () => {
+    const res: any = await dispatch(logout(token));
+    if (res.type === "auth/logout/fulfilled") {
+      toast.success("Successfully logged out");
+      useRouter().push("/login");
+      window.location.reload();
+    } else if (res.type === "auth/logout/rejected") {
+      toast.error(res.payload.message);
+    }
+  };
   return (
     <div className="navbar shadow-lg bg-neutral pr-6 py-4 text-neutral-content">
       <div className="container mx-auto">
@@ -55,24 +72,35 @@ const Header: React.FC = () => {
                   />
                 </div>
               </label>
+
               <ul
                 tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-compact dropdown-content mt-3 p-2 font-space shadow bg-base-100 rounded-box w-52"
               >
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
+                <h1 className="text-lg font-bold text-center font-inter text-neutral-content">
+                  {user?.name}
+                </h1>
+                <li className="menu-item">
+                  <Link href="/profile" passHref>
+                    <a className="menu-link">
+                      Profile
+                      <span className="badge">New</span>
+                    </a>
+                  </Link>
                 </li>
-                <li>
-                  <a>Dashboard</a>
-                </li>
+
+                {userRole === "admin" && (
+                  <li>
+                    <a>Dashboard</a>
+                  </li>
+                )}
                 <li>
                   <a>Settings</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <a className="disabled" onClick={handleLogout}>
+                    Logout
+                  </a>
                 </li>
               </ul>
             </div>
