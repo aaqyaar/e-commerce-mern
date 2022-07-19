@@ -16,11 +16,12 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", function (next) {
-  if (this.isModified("password")) {
-    this.password = this.encryptPassword(this.password);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
   }
-  next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 userSchema.methods.encryptPassword = function (password) {
@@ -29,8 +30,12 @@ userSchema.methods.encryptPassword = function (password) {
   return hashedPassword;
 };
 
-userSchema.methods.matchPassword = function (password) {
-  return this.password === encryptPassword(password);
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  const unhashedPassword = await bcrypt.compareSync(
+    enteredPassword,
+    this.password
+  );
+  return unhashedPassword;
 };
 
-exports.User = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
