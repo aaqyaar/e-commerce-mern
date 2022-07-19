@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { register, login, logout } from "../thunks/auth.thunk";
-
+import { User } from "types/AuthTypes";
 interface ErrorType {
   message: string;
 }
@@ -11,13 +11,6 @@ interface StateTypes {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-}
-
-interface User {
-  role: string;
-  name: string;
-  email: string;
-  password: string;
 }
 
 const initialState: StateTypes = {

@@ -1,10 +1,11 @@
 import React from "react";
 import { _products } from "data/FakeProducts";
+import type { ProductsType } from "types/ProductsType";
 import Products from "views/Products/Products";
 import Main from "layouts/Main/Main";
 
 type Props = {
-  products: [];
+  products: ProductsType[];
 };
 
 function Shop({ products }: Props) {

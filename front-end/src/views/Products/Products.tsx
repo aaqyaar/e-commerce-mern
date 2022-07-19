@@ -1,17 +1,10 @@
 import React from "react";
 import LatestProduct from "layouts/Showcase/latestProduct";
 import Grid from "utils/Grid";
-
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  image: string;
-  category: string[];
-}
+import type { ProductsType } from "types/ProductsType";
 
 type Props = {
-  products: Product[];
+  products: ProductsType[];
 };
 
 function Products({ products }: Props) {

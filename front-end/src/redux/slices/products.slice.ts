@@ -1,17 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { ProductsType } from "types/ProductsType";
 // type Product = Array<object> | null;
-interface ProductsType {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-  quantity: number;
-  category: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
-}
-[];
 
 type StateType = {
   products: ProductsType[];

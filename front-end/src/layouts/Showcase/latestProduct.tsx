@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
+import { ProductsType } from "types/ProductsType";
 
 ///
 
@@ -15,16 +16,8 @@ const animate = {
   },
 };
 
-interface Product {
-  _id: string;
-  name: string;
-  image: string;
-  description: string;
-  category: string[];
-}
-
 type Props = {
-  product: Product;
+  product: ProductsType;
 };
 
 const LatestProduct = ({ product }: Props) => {
@@ -42,7 +35,7 @@ const LatestProduct = ({ product }: Props) => {
           </h2>
           <p>{description}?</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">{category.join(" ")}</div>
+            <div className="badge badge-outline">{category}</div>
           </div>
           <div className="card-actions justify-end mt-2">
             <button className="btn btn-primary">Buy Now</button>
