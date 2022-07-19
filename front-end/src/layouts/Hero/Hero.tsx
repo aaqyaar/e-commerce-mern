@@ -10,7 +10,7 @@ type Props = {};
 const Hero = (props: Props) => {
   return (
     <div
-      className="hero min-h-[80vh]"
+      className="hero min-h-[80vh] pt-8 md:mt-0"
       style={
         {
           // bg-[url(https://placeimg.com/1000/800/arch)]
@@ -18,18 +18,18 @@ const Hero = (props: Props) => {
         }
       }
     >
-      <div className="hero-content text-neutral-content">
+      <div className="hero-content  text-neutral-content flex flex-col md:flex md:flex-row">
         <div className="max-w-lg mx-auto">
-          <h1 className="mb-5 text-3xl md:text-5xl font-bold font-space">
+          <h1 className="mb-5 text-3xl text-center md:text-left md:text-5xl font-bold font-space">
             Ku Soo dhawoow Somali <span className="text-indigo-500">Shop.</span>
           </h1>
-          <p className="mb-5 text-sm md:text-lg">
+          <p className="mb-5 text-sm md:text-lg text-center md:text-left">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
           <Link href={"/shop"} passHref>
-            <a className="btn btn-primary btn-md md:btn-lg">
+            <a className="btn btn-primary  md:text-left btn-md md:btn-lg">
               <span className="mr-2">
                 <ChevronDoubleRightIcon className="md:w-10 h-6 w-6 md:h-10" />
               </span>

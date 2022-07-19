@@ -11,12 +11,18 @@ const Header: React.FC = () => {
       <div className="container mx-auto">
         <div className="flex-1">
           <Link href="/" passHref>
-            <a className="btn btn-ghost normal-case text-xl">Somali Shop</a>
+            <a className="btn btn-ghost normal-case text-xl md:text-2xl">
+              Somali Shop
+            </a>
           </Link>
         </div>
         <div className="flex gap-4">
           <div>
-            <a className="btn btn-ghost normal-case text-xl">Shop</a>
+            <Link href="/shop" passHref>
+              <a className="btn btn-ghost normal-case text-md md:text-xl">
+                Shop
+              </a>
+            </Link>
           </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">

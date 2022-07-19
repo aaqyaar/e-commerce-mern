@@ -6,7 +6,7 @@ type ProductsType = {
   category: string[];
 };
 
-const Products: ProductsType[] = [
+const _products: ProductsType[] = [
   {
     _id: "1",
     image: "/images/macbook.png",
@@ -37,4 +37,4 @@ const Products: ProductsType[] = [
   },
 ];
 
-export { Products };
+export { _products };

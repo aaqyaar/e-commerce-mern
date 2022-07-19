@@ -1,8 +1,9 @@
 import React from "react";
+import Grid from "utils/Grid";
 import LatestProduct from "./latestProduct";
 
 type Props = {
-  latestProducts: Array<{}>;
+  latestProducts: [];
 };
 
 const Showcase = ({ latestProducts }: Props) => {
@@ -13,12 +14,12 @@ const Showcase = ({ latestProducts }: Props) => {
           Latest <span className="text-indigo-500">Products.</span>
         </h1>
       </div>
-      <div className="max-w-96 mx-8 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-16 gap-8">
+      <Grid>
         {latestProducts &&
           latestProducts.map((product, i) => (
             <LatestProduct key={i} product={product} />
           ))}
-      </div>
+      </Grid>
     </div>
   );
 };

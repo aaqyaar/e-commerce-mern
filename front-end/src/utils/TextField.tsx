@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   touched?: boolean;
-  errors?: string;
+  errors: string | undefined;
   getFieldProps: (key: string) => any;
   type: string;
   placeholder: string;
@@ -33,7 +33,7 @@ export default function TextField({
         {...getFieldProps(`${formikValue}`)}
       />
       <label className="label">
-        <span className="label-text text-error">{touched && errors}</span>
+        <span className="label-text text-red-500">{touched && errors}</span>
       </label>
     </React.Fragment>
   );

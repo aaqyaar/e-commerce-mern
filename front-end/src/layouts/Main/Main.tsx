@@ -8,7 +8,7 @@ type Props = {
 
 export default function Main({ children, ...other }: Props) {
   return (
-    <div className="w-screen h-screen font-publicSans overflow-x-hidden">
+    <div className="w-screen h-screen flex flex-col justify-between font-publicSans overflow-x-hidden">
       <Header />
       <main {...other}>{children}</main>
       <Footer />
