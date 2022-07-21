@@ -12,7 +12,7 @@ const { isAuth } = require("../middleware/auth");
 
 router.post("/login", login);
 router.post("/register", register);
-router.post("/logout", logout);
+router.post("/logout", isAuth, logout);
 router.put("/users/:_id", isAuth, updateUser);
 router.get("/users", isAuth, getAllUsers);
 router.get("/users/:_id", isAuth, getUserById);
