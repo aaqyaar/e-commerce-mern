@@ -1,12 +1,16 @@
 import React from "react";
-import Image from "next/image";
-import { ShoppingCartIcon, LoginIcon } from "@heroicons/react/outline";
-import Link from "next/link";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+
 import { useReduxDispatch, useReduxSelector } from "hooks/useReduxHooks";
 import { useCurrentRole, useCurrentUser } from "hooks/useCurrent";
 import { logout } from "redux/thunks/auth.thunk";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { Button } from "react-bootstrap";
+import { LogoutIcon } from "@heroicons/react/outline";
 
 const Header: React.FC = () => {
   const { isAuthenticated, token } = useReduxSelector((state) => state.auth);
@@ -23,100 +27,45 @@ const Header: React.FC = () => {
       toast.error(res.payload.message);
     }
   };
+
   return (
-    <div className="navbar shadow-lg bg-neutral pr-6 py-4 text-neutral-content">
-      <div className="container mx-auto">
-        <div className="flex-1">
-          <Link href="/" passHref>
-            <a className="btn btn-ghost normal-case text-xl md:text-2xl">
-              Somali Shop
-            </a>
-          </Link>
-        </div>
-        <div className="flex gap-4">
-          <div>
-            <Link href="/shop" passHref>
-              <a className="btn btn-ghost normal-case text-md md:text-xl">
-                Shop
-              </a>
+    <Navbar bg="light" expand="lg" className="shadow-lg py-3">
+      <Container>
+        <Navbar.Brand href="/">Somali Shop</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Nav>
+            <Link href="/" passHref>
+              <Nav.Link active>Home</Nav.Link>
             </Link>
-          </div>
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle">
-              <div className="indicator">
-                <ShoppingCartIcon className="w-6 h-6 text-gray-200" />
-                <span className="badge badge-sm indicator-item">8</span>
-              </div>
-            </label>
-            <div
-              tabIndex={0}
-              className="mt-3 py-1 card card-compact dropdown-content w-52 bg-base-100 shadow"
-            >
-              <div className="card-body">
-                <span className="font-bold text-lg">8 Items</span>
-                <span>Subtotal: $999</span>
-                <div className="card-actions">
-                  <button className="btn btn-dark  btn-block">View cart</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          {isAuthenticated ? (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 h-10 rounded-full">
-                  <Image
-                    width={"40px"}
-                    height={"40px"}
-                    src="https://placeimg.com/80/80/people"
-                  />
-                </div>
-              </label>
-
-              <ul
-                tabIndex={0}
-                className="menu menu-compact dropdown-content mt-3 p-2 font-space shadow bg-base-100 rounded-box w-52"
+            <Link href="/shop" passHref>
+              <Nav.Link>Shop</Nav.Link>
+            </Link>
+            <Nav.Link href="/cart">Cart</Nav.Link>
+            <Link href={isAuthenticated ? "/profile" : "/login"} passHref>
+              <Nav.Link>{isAuthenticated ? "Profile" : "Login"}</Nav.Link>
+            </Link>
+            {isAuthenticated && (
+              <Button
+                variant="secondary"
+                className="d-flex justify-content-center align-items-center"
+                onClick={handleLogout}
               >
-                <h1 className="text-lg font-bold text-center font-inter text-neutral-content">
-                  {user?.name}
-                </h1>
-                <li className="menu-item">
-                  <Link href="/profile" passHref>
-                    <a className="menu-link">
-                      Profile
-                      <span className="badge">New</span>
-                    </a>
-                  </Link>
-                </li>
-
-                {userRole === "admin" && (
-                  <li>
-                    <a>Dashboard</a>
-                  </li>
-                )}
-                <li>
-                  <a>Settings</a>
-                </li>
-                <li>
-                  <a className="disabled" onClick={handleLogout}>
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <div>
-              <Link href={"/login"} passHref>
-                <a className="btn btn-error normal-case text-xl ">
-                  <LoginIcon className="w-6 h-6" />
-                  Login
-                </a>
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+                <LogoutIcon
+                  className="mr-2"
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    verticalAlign: "middle",
+                  }}
+                />
+                <span>Logout</span>
+              </Button>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

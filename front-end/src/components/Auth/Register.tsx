@@ -7,6 +7,14 @@ import { FormikProvider, useFormik, Form } from "formik";
 import * as Yup from "yup";
 import TextField from "utils/TextField";
 import { useRouter } from "next/router";
+import {
+  Button,
+  Col,
+  Container,
+  Form as BootstrapForm,
+  Row,
+} from "react-bootstrap";
+import { motion } from "framer-motion";
 
 interface FormValues {
   email: string;
@@ -20,6 +28,17 @@ const initialValues: FormValues = {
   password: "",
   name: "",
   confirmPassword: "",
+};
+
+let easing = [0.6, -0.05, 0.01, 0.99];
+const animate = {
+  opacity: 1,
+  y: 0,
+  transition: {
+    duration: 0.6,
+    ease: easing,
+    delay: 0.16,
+  },
 };
 
 const Register = () => {
@@ -53,16 +72,20 @@ const Register = () => {
     <FormikProvider value={formik}>
       {/* lg:ml-[20%] */}
       <Form onSubmit={handleSubmit} autoComplete="off">
-        <div className="max-w-screen flex items-center justify-center">
-          <div className="card flex-shrink-0 lg:max-w-[60vw] w-full max-w-full py-10 my-10 shadow-2xl bg-base-100">
-            <div className="card-head">
-              <h1 className="text-2xl font-bold text-center">
-                Create a new account
-              </h1>
-            </div>
-            <div className="card-body ">
-              <div className="lg:grid lg:grid-cols-2 lg:gap-4">
-                <div className="form-control">
+        <Container className="mt-5">
+          <Row className="justify-content-center align-items-center">
+            <Col className="col-md-12 mb-4">
+              <motion.div
+                className="shadow-lg py-5 px-4 rounded"
+                animate={animate}
+                initial={{ opacity: 0, y: 60 }}
+              >
+                <div>
+                  <h1 className="text-2xl fw-bold text-center">
+                    Create a new account
+                  </h1>
+                </div>
+                <div>
                   <TextField
                     type={"text"}
                     placeholder="Name"
@@ -74,7 +97,7 @@ const Register = () => {
                     formikValue="name"
                   />
                 </div>
-                <div className="form-control">
+                <div>
                   <TextField
                     type={"text"}
                     placeholder="Email Address"
@@ -86,7 +109,7 @@ const Register = () => {
                     formikValue="email"
                   />
                 </div>
-                <div className="form-control">
+                <div>
                   <TextField
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
@@ -98,7 +121,7 @@ const Register = () => {
                     formikValue="password"
                   />
                 </div>
-                <div className="form-control">
+                <div>
                   <TextField
                     type={showPassword ? "text" : "password"}
                     placeholder="Confirm Password"
@@ -111,41 +134,29 @@ const Register = () => {
                   />
                 </div>
 
-                <div className="form-control">
-                  <label className="label">
-                    <div className="flex items-center gap-4">
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                      <span className="label-text-xs">Show Password</span>
-                    </div>
-                  </label>
+                <div className="mb-3 d-flex justify-content-between">
+                  <BootstrapForm.Check
+                    type={"checkbox"}
+                    id={`default-checkbox`}
+                    label={`Show Password`}
+                    onChange={() => setShowPassword(!showPassword)}
+                  />
                 </div>
-              </div>
-              <div className="form-control mt-6">
-                <button
-                  className={`btn btn-primary ${
-                    loading && "loading btn-disabled"
-                  }`}
-                >
-                  register
-                </button>
-              </div>
-              <div>
-                <label className="label">
+                <div className="mt-2">
+                  <Button type="submit" disabled={loading} size="lg">
+                    Register
+                  </Button>
+                </div>
+                <div className="mt-2 d-flex justify-content-between">
                   <span className="label-text">Already have an account?</span>
                   <Link href={"/login"} passHref>
-                    <a className="label-text-xs text-indigo-500 link link-hover">
-                      Login
-                    </a>
+                    <a>Sign in</a>
                   </Link>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+                </div>
+              </motion.div>
+            </Col>
+          </Row>
+        </Container>
       </Form>
     </FormikProvider>
   );

@@ -3,7 +3,7 @@ import Showcase from "layouts/Showcase/Showcase";
 import React from "react";
 
 type Props = {
-  latestProducts: Array<{}>;
+  latestProducts: [];
 };
 
 const Home = ({ latestProducts }: Props) => {

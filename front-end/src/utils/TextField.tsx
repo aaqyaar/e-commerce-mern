@@ -1,4 +1,6 @@
 import React from "react";
+import { Form } from "react-bootstrap";
+import InputGroup from "react-bootstrap/InputGroup";
 
 type Props = {
   touched?: boolean;
@@ -23,7 +25,7 @@ export default function TextField({
 }: Props) {
   return (
     <React.Fragment>
-      <label className="label" htmlFor={label}>
+      {/* <label className="label" htmlFor={label}>
         <span className="label-text">{label}</span>
       </label>
       <input
@@ -34,7 +36,23 @@ export default function TextField({
       />
       <label className="label">
         <span className="label-text text-red-500">{touched && errors}</span>
-      </label>
+      </label> */}
+
+      <Form.Group className="mb-3" controlId="form">
+        <Form.Label>{label}</Form.Label>
+
+        <Form.Control
+          size="lg"
+          type={type}
+          placeholder={placeholder}
+          className={className}
+          isInvalid={!!errors}
+          {...getFieldProps(`${formikValue}`)}
+        />
+        <Form.Control.Feedback type="invalid">
+          {touched && errors}
+        </Form.Control.Feedback>
+      </Form.Group>
     </React.Fragment>
   );
 }

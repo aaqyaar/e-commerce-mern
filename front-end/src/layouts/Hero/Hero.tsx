@@ -1,53 +1,55 @@
 import React from "react";
 import Image from "next/image";
-import {
-  ArrowRightIcon,
-  ChevronDoubleRightIcon,
-} from "@heroicons/react/outline";
+import { ArrowRightIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import { Card, Button, Container, Row } from "react-bootstrap";
 type Props = {};
 
 const Hero = (props: Props) => {
   return (
     <div
-      className="hero min-h-[80vh] pt-8 md:mt-0"
-      style={
-        {
-          // bg-[url(https://placeimg.com/1000/800/arch)]
-          // backgroundImage: "url(https://placeimg.com/1000/800/arch)",
-        }
-      }
+      className="hero"
+      style={{
+        maxWidth: "100%",
+        width: "100vw",
+        maxHeight: "100%",
+      }}
     >
-      <div className="hero-content  text-neutral-content flex flex-col md:flex md:flex-row">
-        <div className="max-w-lg mx-auto">
-          <h1 className="mb-5 text-3xl text-center md:text-left md:text-5xl font-bold font-space">
-            Ku Soo dhawoow Somali <span className="text-indigo-500">Shop.</span>
-          </h1>
-          <p className="mb-5 text-sm md:text-lg text-center md:text-left">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
-          <Link href={"/shop"} passHref>
-            <a className="btn btn-primary  md:text-left btn-md md:btn-lg">
-              <span className="mr-2">
-                <ChevronDoubleRightIcon className="md:w-10 h-6 w-6 md:h-10" />
-              </span>
-              Shop Now
-            </a>
-          </Link>
-        </div>
-        <div className="max-w-lg mx-auto">
-          <Image
-            width={1000}
-            height={800}
-            src={"/images/macbook.png"}
-            alt="Product"
-          />
-          {/* className="w-full" */}
-        </div>
-      </div>
-      <div className="hero-overlay bg-opacity-60"></div>
+      <Card className="bg-light border-0 m-2 p-5">
+        <Container
+          className="d-flex flex-lg-row justify-content-center align-items-center"
+          style={{ height: "80vh" }}
+        >
+          <div>
+            <h1>Kusoo Dhawoow Somali Shop</h1>
+            <p className="py-2">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+              <br />
+              magnam pariatur ipsum necessitatibus earum. Eos error doloribus
+              autem.
+              <br />
+              Optio ex eum nihil qui reiciendis autem aspernatur nesciunt velit
+              esse labore.
+            </p>
+            <Link href="/shop" passHref>
+              <Button size="lg" variant="outline-secondary">
+                <a>
+                  <ArrowRightIcon style={{ width: "30px", height: "30px" }} />
+                  <span className="pl-3">Shop Now</span>
+                </a>
+              </Button>
+            </Link>
+          </div>
+          <Row>
+            <Image
+              src="/images/macbook.png"
+              width={"400px"}
+              height={"400px"}
+              alt="Card image"
+            />
+          </Row>
+        </Container>
+      </Card>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
-import Footer from "./Footer/Footer";
+import {} from "react-bootstrap";
+// import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 
 type Props = {
@@ -8,10 +9,10 @@ type Props = {
 
 export default function Main({ children, ...other }: Props) {
   return (
-    <div className="w-screen h-screen flex flex-col justify-between font-publicSans overflow-x-hidden">
+    <React.Fragment>
       <Header />
       <main {...other}>{children}</main>
-      <Footer />
-    </div>
+      {/* <Footer /> */}
+    </React.Fragment>
   );
 }

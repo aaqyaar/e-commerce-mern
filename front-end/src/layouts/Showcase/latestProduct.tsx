@@ -2,6 +2,8 @@ import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
 import { ProductsType } from "types/ProductsType";
+import { Button, Card } from "react-bootstrap";
+import { fCurrency } from "utils/formatNumber";
 
 ///
 
@@ -21,27 +23,19 @@ type Props = {
 };
 
 const LatestProduct = ({ product }: Props) => {
-  const { name, image, description, category, _id } = product;
+  const { name, image, category, price, _id } = product;
   return (
     <motion.div animate={animate} initial={{ opacity: 0, y: 60 }}>
-      <div className="card w-96  bg-base-100 shadow-xl">
-        <figure>
-          <Image src={image} alt={name} width={250} height={200} />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">
-            {name}
-            <div className="badge badge-secondary">NEW</div>
-          </h2>
-          <p>{description}?</p>
-          <div className="card-actions justify-end">
-            <div className="badge badge-outline">{category}</div>
-          </div>
-          <div className="card-actions justify-end mt-2">
-            <button className="btn btn-primary">Buy Now</button>
-          </div>
-        </div>
-      </div>
+      <Card className="h-100 text-center">
+        <Card.Img variant="top" />
+        <Image height={"250px"} width={"250px"} src={image} alt={name} />
+        <Card.Body>
+          <Card.Title>{name}</Card.Title>
+          <Card.Text>{category}</Card.Text>
+          <Card.Text className="lead  fw-bold">{fCurrency(price)}</Card.Text>
+          <Button variant="outline-secondary">Buy Now</Button>
+        </Card.Body>
+      </Card>
     </motion.div>
   );
 };

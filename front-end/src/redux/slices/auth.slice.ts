@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { register, login, logout } from "../thunks/auth.thunk";
-import { User } from "types/AuthTypes";
+import type { User } from "types/AuthTypes";
 interface ErrorType {
   message: string;
 }

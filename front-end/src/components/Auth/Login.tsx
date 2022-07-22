@@ -8,6 +8,13 @@ import * as Yup from "yup";
 import { motion } from "framer-motion";
 import TextField from "utils/TextField";
 import { login } from "redux/thunks/auth.thunk";
+import {
+  Button,
+  Col,
+  Container,
+  Form as BootstrapForm,
+  Row,
+} from "react-bootstrap";
 
 ///
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -69,14 +76,19 @@ const Login = () => {
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={handleSubmit} autoComplete="off">
-        <div className="hero min-h-[75.5vh]">
-          <div className="card flex-shrink-0 w-full max-w-xl py-10 shadow-2xl bg-base-100">
-            <div className="card-head">
-              <h1 className="text-2xl font-bold text-center">Login</h1>
-            </div>
-            <motion.div animate={animate} initial={{ opacity: 0, y: 60 }}>
-              <div className="card-body">
-                <div className="form-control">
+        <Container className="mt-5 pt-5">
+          <Row className="justify-content-center align-items-center">
+            <Col className="col-md-6 mb-4">
+              <motion.div
+                className="shadow-lg py-5 px-4 rounded"
+                animate={animate}
+                initial={{ opacity: 0, y: 60 }}
+              >
+                <div>
+                  <h1 className="text-2xl fw-bold text-center">Login</h1>
+                </div>
+
+                <div>
                   <TextField
                     type={"text"}
                     placeholder="Email Address"
@@ -88,7 +100,7 @@ const Login = () => {
                     formikValue="email"
                   />
                 </div>
-                <div className="form-control">
+                <div>
                   <TextField
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
@@ -100,47 +112,38 @@ const Login = () => {
                     formikValue="password"
                   />
 
-                  <div className="form-control">
-                    <label className="label">
-                      <div className="flex items-center gap-4">
-                        <input
-                          type="checkbox"
-                          className="checkbox"
-                          onClick={() => setShowPassword(!showPassword)}
-                        />
-                        <span className="label-text-xs">Show Password</span>
-                      </div>
-                      <Link href="/forgot-password" passHref>
-                        <a className="label-text-sm link link-hover">
-                          Forgot password?
-                        </a>
-                      </Link>
-                    </label>
-                  </div>
-                </div>
-                <div className="form-control mt-6">
-                  <button
-                    className={`btn btn-primary ${
-                      loading && "loading btn-disabled"
-                    }`}
-                  >
-                    login
-                  </button>
-                </div>
-                <div>
-                  <label className="label">
-                    <span className="label-text">Don't have an account?</span>
-                    <Link href={"/register"} passHref>
-                      <a className="label-text-xs text-indigo-500 link link-hover">
-                        Sign up
+                  <div className="mb-3 d-flex justify-content-between">
+                    <BootstrapForm.Check
+                      type={"checkbox"}
+                      id={`default-checkbox`}
+                      label={`Show Password`}
+                      onChange={() => setShowPassword(!showPassword)}
+                    />
+
+                    <Link href="/forgot-password" passHref>
+                      <a className="label-text-sm link link-hover">
+                        Forgot password?
                       </a>
                     </Link>
-                  </label>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+                <div className="mt-6">
+                  <Button type="submit" disabled={loading} size="lg">
+                    Login
+                  </Button>
+                </div>
+                <div className="mt-2 d-flex justify-content-between">
+                  <span className="label-text">Don't have an account?</span>
+                  <Link href={"/register"} passHref>
+                    <a className="label-text-xs  text-indigo-500 link link-hover">
+                      Sign up
+                    </a>
+                  </Link>
+                </div>
+              </motion.div>
+            </Col>
+          </Row>
+        </Container>
       </Form>
     </FormikProvider>
   );
