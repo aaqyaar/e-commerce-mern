@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
+import type { ProductsType } from "types/ProductsType";
 import LatestProduct from "./latestProduct";
 
 type Props = {
-  latestProducts: [];
+  latestProducts: ProductsType[];
 };
 
 const category = ["All", "Electronics", "Clothing", "Books"];

@@ -1,8 +1,8 @@
-import { useCurrentUser } from "hooks/useCurrent";
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
 import { Button, Card, Container } from "react-bootstrap";
+import useAuth from "hooks/useAuth";
 
 type Props = {};
 
@@ -18,7 +18,7 @@ const animate = {
 };
 
 function UserProfile({}: Props) {
-  const user = useCurrentUser();
+  const { user } = useAuth();
 
   return (
     <motion.div animate={animate} initial={{ opacity: 0, y: 60 }}>

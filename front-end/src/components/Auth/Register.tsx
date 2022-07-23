@@ -72,9 +72,9 @@ const Register = () => {
     <FormikProvider value={formik}>
       {/* lg:ml-[20%] */}
       <Form onSubmit={handleSubmit} autoComplete="off">
-        <Container className="mt-5">
+        <Container className="mt-5 mx-auto">
           <Row className="justify-content-center align-items-center">
-            <Col className="col-md-12 mb-4">
+            <Col className="col-md-12 mb-4 px-5">
               <motion.div
                 className="shadow-lg py-5 px-4 rounded"
                 animate={animate}

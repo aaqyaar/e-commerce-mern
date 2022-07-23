@@ -2,21 +2,20 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-
-import { useReduxDispatch, useReduxSelector } from "hooks/useReduxHooks";
-import { useCurrentRole, useCurrentUser } from "hooks/useCurrent";
+import useAuth from "hooks/useAuth";
+import { useReduxDispatch } from "hooks/useReduxHooks";
 import { logout } from "redux/thunks/auth.thunk";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
-import { LogoutIcon } from "@heroicons/react/outline";
+import { LogoutIcon, MenuIcon } from "@heroicons/react/outline";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 const Header: React.FC = () => {
-  const { isAuthenticated, token } = useReduxSelector((state) => state.auth);
+  const { isAuthenticated, token } = useAuth();
   const dispatch = useReduxDispatch();
-  const userRole = useCurrentRole();
-  const user = useCurrentUser();
+
   const handleLogout = async () => {
     const res: any = await dispatch(logout(token));
     if (res.type === "auth/logout/fulfilled") {
@@ -42,12 +41,33 @@ const Header: React.FC = () => {
               <Nav.Link>Shop</Nav.Link>
             </Link>
             <Nav.Link href="/cart">Cart</Nav.Link>
-            <Link href={isAuthenticated ? "/profile" : "/login"} passHref>
-              <Nav.Link>{isAuthenticated ? "Profile" : "Login"}</Nav.Link>
+            <Link href={isAuthenticated ? "/dashboard" : "/login"} passHref>
+              {isAuthenticated ? (
+                <>
+                  <NavDropdown title="Dashboard" id="basic-nav-dropdown">
+                    <Link href="/dashboard/profile">
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </Link>
+                    <Link href="/dashboard/products">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </Link>
+                    <Link href="/dashboard/orders">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </Link>
+                    <NavDropdown.Divider />
+
+                    <Link href="/dashboard" passHref>
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </Link>
+                  </NavDropdown>
+                </>
+              ) : (
+                <Nav.Link>Login</Nav.Link>
+              )}
             </Link>
             {isAuthenticated && (
               <Button
-                variant="secondary"
+                variant="dark"
                 className="d-flex justify-content-center align-items-center"
                 onClick={handleLogout}
               >
